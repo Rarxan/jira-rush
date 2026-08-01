@@ -1,0 +1,17 @@
+.idea/
+out/
+target/
+*.iml
+
+logs/
+attachments/
+pgdata/
+
+*.patch
+
+.DS_Store
+Thumbs.db
+
+.mvn/wrapper/maven-wrapper.jar
+
+workspace.xml
