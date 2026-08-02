@@ -60,22 +60,6 @@ spring:
               - email
               - profile
 
-          vk:
-            client-id: ${VK_CLIENT_ID:change-me}
-            client-secret: ${VK_CLIENT_SECRET:change-me}
-            client-name: Vkontakte
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            client-authentication-method: client_secret_post
-            authorization-grant-type: authorization_code
-            scope: email
-
-          yandex:
-            client-id: ${YANDEX_CLIENT_ID:change-me}
-            client-secret: ${YANDEX_CLIENT_SECRET:change-me}
-            client-name: Yandex
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            authorization-grant-type: authorization_code
-
           gitlab:
             client-id: ${GITLAB_CLIENT_ID:change-me}
             client-secret: ${GITLAB_CLIENT_SECRET:change-me}
@@ -85,18 +69,6 @@ spring:
             scope: read_user
 
         provider:
-          vk:
-            authorization-uri: https://oauth.vk.com/authorize
-            token-uri: https://oauth.vk.com/access_token
-            user-info-uri: https://api.vk.com/method/users.get?v=8.1
-            user-name-attribute: response
-
-          yandex:
-            authorization-uri: https://oauth.yandex.ru/authorize
-            token-uri: https://oauth.yandex.ru/token
-            user-info-uri: https://login.yandex.ru/info
-            user-name-attribute: login
-
           gitlab:
             authorization-uri: https://gitlab.com/oauth/authorize
             token-uri: https://gitlab.com/oauth/token
