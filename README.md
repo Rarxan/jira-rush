@@ -26,5 +26,8 @@
 
 - https://habr.com/ru/articles/259055/
 
-Список выполненных задач:
-...
+Completed tasks:
+
+- [x] 1. Onboarding
+- [x] 2. Removed VK and Yandex OAuth providers
+- [x] 3. Moved sensitive configuration to a separate properties file with environment variables
