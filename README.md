@@ -31,3 +31,4 @@ Completed tasks:
 - [x] 1. Onboarding
 - [x] 2. Removed VK and Yandex OAuth providers
 - [x] 3. Moved sensitive configuration to a separate properties file with environment variables
+- [x] 4. Switched tests to H2 in-memory database with Spring profiles
