@@ -33,3 +33,4 @@ Completed tasks:
 - [x] 3. Moved sensitive configuration to a separate properties file with environment variables
 - [x] 4. Switched tests to H2 in-memory database with Spring profiles
 - [x] 5. Added tests for all public methods of ProfileRestController
+- [x] 6. Refactored FileUtil#upload to use modern java.nio.file API
