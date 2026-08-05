@@ -21,6 +21,8 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
@@ -130,6 +132,18 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", userType, id, userId)));
         assignment.setEndpoint(LocalDateTime.now());
+    }
+
+    @Transactional
+    public void addTags(long taskId, Set<String> tags) {
+        Assert.notEmpty(tags, "tags must not be empty");
+
+        Task task = handler.getRepository().getExisted(taskId);
+
+        Set<String> updatedTags = new HashSet<>(task.getTags());
+        updatedTags.addAll(tags);
+
+        task.setTags(updatedTags);
     }
 
     private void checkAssignmentActionPossible(long id, String userType, boolean assign) {

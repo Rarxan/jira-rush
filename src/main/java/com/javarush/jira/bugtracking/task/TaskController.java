@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static com.javarush.jira.common.BaseHandler.createdResponse;
 
@@ -125,6 +126,16 @@ public class TaskController {
     public void unAssign(@PathVariable long id, @NotBlank @RequestParam String userType) {
         log.info("unassign user {} as {} from task {}", AuthUser.authId(), userType, id);
         taskService.unAssign(id, userType, AuthUser.authId());
+    }
+
+    @PatchMapping(path = "/{id}/tags", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTags(
+            @PathVariable long id,
+            @Valid @RequestBody Set<@NotBlank String> tags
+    ) {
+        log.info("add tags {} to task {}", tags, id);
+        taskService.addTags(id, tags);
     }
 
     @GetMapping("/{id}/comments")

@@ -12,6 +12,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Set;
+
 import static com.javarush.jira.bugtracking.ObjectType.TASK;
 import static com.javarush.jira.bugtracking.task.TaskController.REST_URL;
 import static com.javarush.jira.bugtracking.task.TaskService.CANNOT_ASSIGN;
@@ -115,6 +117,30 @@ class TaskControllerTest extends AbstractControllerTest {
         Task updated = new Task(updatedTo.getId(), updatedTo.getTitle(), updatedTo.getTypeCode(), updatedTo.getStatusCode(), updatedTo.getParentId(), updatedTo.getProjectId(), updatedTo.getSprintId());
         TASK_MATCHER.assertMatch(taskRepository.getExisted(TASK2_ID), updated);
         get(TASK2_ID, taskToFull2);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void addTags() throws Exception {
+        perform(MockMvcRequestBuilders.patch(TASKS_REST_URL_SLASH + TASK1_ID + "/tags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(Set.of("backend", "urgent"))))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        Task task = taskRepository.findFullById(TASK1_ID)
+                .orElseThrow();
+
+        assertTrue(task.getTags().contains("backend"));
+        assertTrue(task.getTags().contains("urgent"));
+    }
+
+    @Test
+    void addTagsUnauthorized() throws Exception {
+        perform(MockMvcRequestBuilders.patch(TASKS_REST_URL_SLASH + TASK1_ID + "/tags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(Set.of("backend"))))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
