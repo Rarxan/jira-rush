@@ -34,3 +34,4 @@ Completed tasks:
 - [x] 4. Switched tests to H2 in-memory database with Spring profiles
 - [x] 5. Added tests for all public methods of ProfileRestController
 - [x] 6. Refactored FileUtil#upload to use modern java.nio.file API
+- [x] 7. Added task tags support (REST API + service layer)
