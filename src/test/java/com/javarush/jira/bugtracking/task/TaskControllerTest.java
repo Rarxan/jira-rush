@@ -27,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Duration;
+
 class TaskControllerTest extends AbstractControllerTest {
     private static final String TASKS_REST_URL_SLASH = REST_URL + "/";
     private static final String TASKS_BY_PROJECT_REST_URL = REST_URL + "/by-project";
@@ -47,6 +49,8 @@ class TaskControllerTest extends AbstractControllerTest {
     private ActivityRepository activityRepository;
     @Autowired
     private UserBelongRepository userBelongRepository;
+    @Autowired
+    private TaskService taskService;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -615,5 +619,25 @@ class TaskControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.detail", is(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", TASK_DEVELOPER, TASK1_ID, ADMIN_ID))));
+    }
+
+    @Test
+    void getTimeInProgress() {
+        Task task = taskRepository.getExisted(DONE_TASK_ID);
+
+        assertEquals(
+                Duration.ofHours(4).plusMinutes(30),
+                taskService.getTimeInProgress(task)
+        );
+    }
+
+    @Test
+    void getTimeInTesting() {
+        Task task = taskRepository.getExisted(DONE_TASK_ID);
+
+        assertEquals(
+                Duration.ofHours(1).plusMinutes(30),
+                taskService.getTimeInTesting(task)
+        );
     }
 }

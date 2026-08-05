@@ -35,3 +35,4 @@ Completed tasks:
 - [x] 5. Added tests for all public methods of ProfileRestController
 - [x] 6. Refactored FileUtil#upload to use modern java.nio.file API
 - [x] 7. Added task tags support (REST API + service layer)
+- [x] 8. Added service methods to calculate task work and testing duration

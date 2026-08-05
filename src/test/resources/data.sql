@@ -88,6 +88,11 @@ values (1, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (1, 1, '2023-05-15 14:05:10', null, 'Data', null, 4, null, null, null),
        (1, 2, '2023-05-15 12:05:10', null, 'Trees', 'Trees desc', 4, 'epic', 'in_progress', 'normal');
 
+insert into ACTIVITY (ID, AUTHOR_ID, TASK_ID, UPDATED, STATUS_CODE)
+values (1001, 1, 6, '2023-06-14 09:00:00', 'in_progress'),
+       (1002, 1, 6, '2023-06-14 13:30:00', 'ready_for_review'),
+       (1003, 1, 6, '2023-06-14 15:00:00', 'done');
+
 insert into USER_BELONG (
     OBJECT_ID,
     OBJECT_TYPE,

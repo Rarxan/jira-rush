@@ -29,6 +29,8 @@ import static com.javarush.jira.bugtracking.task.TaskUtil.fillExtraFields;
 import static com.javarush.jira.bugtracking.task.TaskUtil.makeActivity;
 import static com.javarush.jira.ref.ReferenceService.getRefTo;
 
+import java.time.Duration;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
@@ -132,6 +134,36 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException(String
                         .format("Not found assignment with userType=%s for task {%d} for user {%d}", userType, id, userId)));
         assignment.setEndpoint(LocalDateTime.now());
+    }
+
+    public Duration getTimeInProgress(Task task) {
+        List<Activity> activities =
+                activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(task.id());
+
+        LocalDateTime inProgressTime = getStatusTime(activities, "in_progress", task.id());
+        LocalDateTime readyForReviewTime = getStatusTime(activities, "ready_for_review", task.id());
+
+        return Duration.between(inProgressTime, readyForReviewTime);
+    }
+
+    public Duration getTimeInTesting(Task task) {
+        List<Activity> activities =
+                activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(task.id());
+
+        LocalDateTime readyForReviewTime = getStatusTime(activities, "ready_for_review", task.id());
+        LocalDateTime doneTime = getStatusTime(activities, "done", task.id());
+
+        return Duration.between(readyForReviewTime, doneTime);
+    }
+
+    private LocalDateTime getStatusTime(List<Activity> activities, String statusCode, long taskId) {
+        return activities.stream()
+                .filter(activity -> statusCode.equals(activity.getStatusCode()))
+                .map(Activity::getUpdated)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(
+                        "Status " + statusCode + " not found for task " + taskId
+                ));
     }
 
     @Transactional
