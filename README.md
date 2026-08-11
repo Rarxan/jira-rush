@@ -36,3 +36,4 @@ Completed tasks:
 - [x] 6. Refactored FileUtil#upload to use modern java.nio.file API
 - [x] 7. Added task tags support (REST API + service layer)
 - [x] 8. Added service methods to calculate task work and testing duration
+- [x] 9. Added Dockerfile for the main server
